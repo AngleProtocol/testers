@@ -18,7 +18,7 @@ await Promise.all(snapshots.map(async (snapshot) => {
 const manualAddresses = (await manual.text()).split('\n')
 manualAddresses.forEach((address: string) => testers.add(address));
 
-const finalTesters = Array.from(testers).filter(a => a.slice(0, 2) === '0x' && a.length === 42);
+const finalTesters = Array.from(testers).filter(a => a.slice(0, 2) === '0x' && a.length === 42).map(a => a.toLowerCase());
 let obj = {};
 finalTesters.forEach((a: string) => { obj[a] = true })
 
