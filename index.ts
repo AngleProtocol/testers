@@ -1,4 +1,3 @@
-console.log("Hello via Bun!");
 import { readdirSync } from 'fs';
 
 const snapshotDirectory = import.meta.dir + '/sources/snapshots/';
@@ -16,8 +15,15 @@ await Promise.all(snapshots.map(async (snapshot) => {
     addresses.forEach(address => testers.add(address));
 }))
 
-let json = JSON.stringify(Array.from(testers));
+const manualAddresses = (await manual.text()).split('\n')
+manualAddresses.forEach((address: string) => testers.add(address));
 
-[['[', '[\n'], [']', ']\n'], [',', ',\n  ']].forEach(([c, nc]) => json = json.replaceAll(c, nc))
+const finalTesters = Array.from(testers).filter(a => a.slice(0, 2) === '0x' && a.length === 42);
+let obj = {};
+finalTesters.forEach((a: string) => { obj[a] = true })
 
-Bun.write(output, json);
+let json = JSON.stringify(obj);
+
+[['{', '{\n  '], ['}', '\n}'], [',', ',\n  ']].forEach(([c, nc]) => json = json.replaceAll(c, nc))
+
+Bun.write(output, json, { createPath: true });
