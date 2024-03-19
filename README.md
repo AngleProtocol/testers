@@ -9,4 +9,6 @@ Currently, we grant access if the address meets at least one of these criterias 
 * Holder of veANGLE (0x0c462dbb9ec8cd1630f1728b2cfd2769d09f0dd5) on Mainnet
 
 # Update
-To update the `dist/list.json`, update the various data in `sources/` and run `yarn build`.
+To update the `dist/list.json`, update the various data in `sources/` and run `bun run index.ts`.
+
+Holders of NFTs are snapshotted using https://holders.at/, you can just download the csv into `sources/snapshots` and the scripts will take the it into account.
